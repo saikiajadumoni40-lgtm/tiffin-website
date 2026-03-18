@@ -4,28 +4,112 @@
   <title>Parthana Tiffin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family: Arial; background: #fff8dc; padding: 20px; }
-    .box { background: white; padding: 20px; border-radius: 10px; max-width: 400px; margin: auto; }
-    input, select, textarea { width: 100%; padding: 10px; margin: 5px 0; }
-    button { width: 100%; padding: 12px; margin-top: 10px; border: none; color: white; font-weight: bold; }
+    body { font-family: Arial; background: #fff8dc; margin: 0; }
+
+    .header {
+      background: #ffcc00;
+      padding: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 15px;
+      max-width: 500px;
+      margin: auto;
+    }
+
+    .card {
+      background: white;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .meal {
+      border: 2px solid transparent;
+      cursor: pointer;
+    }
+
+    .selected {
+      border: 2px solid green;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin: 6px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .offer {
+      background: red;
+      color: white;
+      text-align: center;
+      padding: 8px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+
+    .trust {
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      color: white;
+      font-size: 16px;
+      margin-top: 10px;
+      border-radius: 10px;
+    }
+
     .wa { background: green; }
     .upi { background: blue; }
+
+    .sticky {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 500px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   </style>
 </head>
+
 <body>
 
-<div class="box">
-  <h2>🍱 Parthana Tiffin Services</h2>
+<div class="header">
+  🍱 Parthana Tiffin Services <br>
+  <small>Healthy • Affordable • Home Style Food</small>
+</div>
+
+<div class="container">
+
+  <div class="offer">🔥 First 10 Students – 20% OFF</div>
+
+  <h3>Select Meal</h3>
+
+  <div class="card meal" onclick="selectMeal('Veg Meal - ₹79', this)">
+    🍚 Veg Meal - ₹79 <br><small>Rice + Dal + Sabzi</small>
+  </div>
+
+  <div class="card meal" onclick="selectMeal('Egg Meal - ₹99', this)">
+    🍳 Egg Meal - ₹99 <br><small>Rice + Egg Curry</small>
+  </div>
+
+  <div class="card meal" onclick="selectMeal('Chicken Meal - ₹129', this)">
+    🍗 Chicken Meal - ₹129 <br><small>Rice + Chicken Curry</small>
+  </div>
 
   <input id="name" placeholder="Your Name">
   <input id="phone" placeholder="Phone Number">
-  <textarea id="address" placeholder="Address"></textarea>
-
-  <select id="meal">
-    <option>Veg Meal - ₹79</option>
-    <option>Egg Meal - ₹99</option>
-    <option>Chicken Meal - ₹129</option>
-  </select>
+  <textarea id="address" placeholder="Full Address"></textarea>
 
   <select id="type">
     <option>Lunch</option>
@@ -40,34 +124,49 @@
 
   <input type="time" id="time">
 
-  <button class="wa" onclick="order()">Order on WhatsApp</button>
-  <button class="upi" onclick="pay()">Pay via UPI</button>
+  <div class="trust">
+    ✔ Hygienic Kitchen <br>
+    ✔ Fresh Cooking <br>
+    ✔ Fast Delivery <br>
+    ✔ Student Friendly Price
+  </div>
+
+</div>
+
+<div class="sticky">
+  <button class="btn wa" onclick="order()">🟢 Order Now on WhatsApp</button>
+  <button class="btn upi" onclick="pay()">💳 Pay via UPI</button>
 </div>
 
 <script>
+let selectedMeal = "Veg Meal - ₹79";
+
+function selectMeal(meal, el) {
+  selectedMeal = meal;
+  document.querySelectorAll(".meal").forEach(e => e.classList.remove("selected"));
+  el.classList.add("selected");
+}
+
 function order() {
   let name = document.getElementById("name").value;
   let phone = document.getElementById("phone").value;
   let address = document.getElementById("address").value;
-  let meal = document.getElementById("meal").value;
   let type = document.getElementById("type").value;
   let plan = document.getElementById("plan").value;
   let time = document.getElementById("time").value;
 
   if(!name || !phone || !address || !time){
-    alert("Fill all details");
+    alert("Please fill all details");
     return;
   }
 
-  let msg = `Order Details:%0AName: ${name}%0APhone: ${phone}%0AAddress: ${address}%0AMeal: ${meal}%0AType: ${type}%0APlan: ${plan}%0ATime: ${time}`;
+  let msg = `Order Details:%0AName: ${name}%0APhone: ${phone}%0AAddress: ${address}%0AMeal: ${selectedMeal}%0AType: ${type}%0APlan: ${plan}%0ATime: ${time}`;
 
   window.open(`https://wa.me/919864777956?text=${msg}`);
 }
 
 function pay() {
-  let meal = document.getElementById("meal").value;
-  let amount = meal.includes("79") ? 79 : meal.includes("99") ? 99 : 129;
-
+  let amount = selectedMeal.includes("79") ? 79 : selectedMeal.includes("99") ? 99 : 129;
   window.location.href = `upi://pay?pa=yourupi@upi&pn=ParthanaTiffin&am=${amount}&cu=INR`;
 }
 </script>
