@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Parthana Tiffin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial; background: #fff8dc; padding: 20px; }
+    .box { background: white; padding: 20px; border-radius: 10px; max-width: 400px; margin: auto; }
+    input, select, textarea { width: 100%; padding: 10px; margin: 5px 0; }
+    button { width: 100%; padding: 12px; margin-top: 10px; border: none; color: white; font-weight: bold; }
+    .wa { background: green; }
+    .upi { background: blue; }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>🍱 Parthana Tiffin Services</h2>
+
+  <input id="name" placeholder="Your Name">
+  <input id="phone" placeholder="Phone Number">
+  <textarea id="address" placeholder="Address"></textarea>
+
+  <select id="meal">
+    <option>Veg Meal - ₹79</option>
+    <option>Egg Meal - ₹99</option>
+    <option>Chicken Meal - ₹129</option>
+  </select>
+
+  <select id="type">
+    <option>Lunch</option>
+    <option>Dinner</option>
+  </select>
+
+  <select id="plan">
+    <option>Daily</option>
+    <option>Weekly</option>
+    <option>Monthly</option>
+  </select>
+
+  <input type="time" id="time">
+
+  <button class="wa" onclick="order()">Order on WhatsApp</button>
+  <button class="upi" onclick="pay()">Pay via UPI</button>
+</div>
+
+<script>
+function order() {
+  let name = document.getElementById("name").value;
+  let phone = document.getElementById("phone").value;
+  let address = document.getElementById("address").value;
+  let meal = document.getElementById("meal").value;
+  let type = document.getElementById("type").value;
+  let plan = document.getElementById("plan").value;
+  let time = document.getElementById("time").value;
+
+  if(!name || !phone || !address || !time){
+    alert("Fill all details");
+    return;
+  }
+
+  let msg = `Order Details:%0AName: ${name}%0APhone: ${phone}%0AAddress: ${address}%0AMeal: ${meal}%0AType: ${type}%0APlan: ${plan}%0ATime: ${time}`;
+
+  window.open(`https://wa.me/919864777956?text=${msg}`);
+}
+
+function pay() {
+  let meal = document.getElementById("meal").value;
+  let amount = meal.includes("79") ? 79 : meal.includes("99") ? 99 : 129;
+
+  window.location.href = `upi://pay?pa=yourupi@upi&pn=ParthanaTiffin&am=${amount}&cu=INR`;
+}
+</script>
+
+</body>
+</html>
